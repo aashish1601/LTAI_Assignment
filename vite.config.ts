@@ -1,9 +1,10 @@
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import react from "@vitejs/plugin-react";
-import { cloudflare } from "@cloudflare/vite-plugin";
+
 import tsConfigPaths from "vite-tsconfig-paths";
 import { defineConfig, loadEnv } from "vite";
+import { nitro } from "nitro/vite";
 
 export default defineConfig(({ command, mode }) => {
   // Inject VITE_* env vars
@@ -31,7 +32,7 @@ export default defineConfig(({ command, mode }) => {
       tsConfigPaths({ projects: ["./tsconfig.json"] }),
       tailwindcss(),
       tanstackStart({
-        server: { entry: "server" },
+
         importProtection: {
           behavior: "error",
           client: {
@@ -40,9 +41,9 @@ export default defineConfig(({ command, mode }) => {
           },
         },
       }),
+      nitro(),
       react(),
-      // Cloudflare Workers build support
-      ...(command === "build" ? [cloudflare({ viteEnvironment: { name: "ssr" } })] : []),
+
     ],
   };
 });
